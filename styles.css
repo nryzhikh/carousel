@@ -1,0 +1,40 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+#carousel-container {
+    display: flex;
+    justify-content:center;
+    overflow: hidden;
+    width: 1000px;
+}
+
+#current-image {
+    justify-self: center;
+    width: 200px;
+    transform: translateX(-150px);
+}
+
+#previous-images {
+    display: flex;
+    justify-content: right;
+    overflow: hidden;
+    width: 400px;
+    flex-direction: row-reverse;
+}
+
+#next-images {
+    display: flex;
+    justify-content: left;
+    overflow: hidden;
+    width: 400px;
+}
