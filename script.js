@@ -1,72 +1,72 @@
-const allImages = [
-    'img1.jpg',
-    'img2.jpeg',
-    'img3.jpeg',
-    'img4.jpeg',
-    'img5.jpeg',
-    'img7.jpeg',
-    'img8.jpeg',
-    'img9.jpeg'];
+const container = document.getElementById('container');
+const dots = document.getElementById('dots');
+let currentTransformValue = 0;
+let maxTransformValue = 0;
+let minTranformValue = 0;
 
-let currentImageCounter = 0;
-const currentImageContainer = document.getElementById('current-image');
 
-function showActiveImage() {
-    currentImageContainer.innerHTML = `<img src="${allImages[currentImageCounter]}" alt="image">`;
+function nextSlide () {
+    currentTransformValue -= 200
+    if (currentTransformValue < minTranformValue) currentTransformValue = 0;
+    container.style.transform = `translateX(${currentTransformValue}px)`;
+    const activeDot = document.querySelector('.dot-active');
 }
 
-const previousImagesContainer = document.getElementById('previous-images');
-const nextImagesContainer = document.getElementById('next-images');
-
-function showPreviousImages() {
-    previousImagesContainer.innerHTML = '';
-    for (let i = currentImageCounter - 1; i >= 0; i--) {
-        previousImagesContainer.innerHTML += '<img src="' + allImages[i] + '" alt="image">';
-    };
-
- 
-}
-
-function showNextImages() {
-    nextImagesContainer.innerHTML = '';
-    for (let i = currentImageCounter + 1; i < allImages.length; i++) {
-        nextImagesContainer.innerHTML += '<img src="' + allImages[i] + '" alt="image">'
-    };
-}
-
-function nextImage() {
-    if (currentImageCounter < allImages.length - 1) {
-        currentImageCounter++;
-    } else {
-        currentImageCounter = 0;
-    };
+function prevSlide () {
+    currentTransformValue += 200
+    if (currentTransformValue > 0) currentTransformValue = minTranformValue;
+    container.style.transform = `translateX(${currentTransformValue}px)`;
 };
 
-function previousImage() {
-    if (currentImageCounter > 0) {
-        currentImageCounter--;
-    } else {
-        currentImageCounter = allImages.length - 1;
-    };
+function nextDot () {
+    const activeDot = document.querySelector('.dot-active');
+    if(activeDot)activeDot.classList.remove('dot-active');
+    const nextDot = document.querySelector(`[data-index="${-currentTransformValue / 200}"]`);
+    nextDot.classList.add('dot-active');
 };
 
+function prevDot () {
+    const activeDot = document.querySelector('.dot-active');
+    if(activeDot)activeDot.classList.remove('dot-active');
+    const prevDot = document.querySelector(`[data-index="${-currentTransformValue / 200}"]`);
+    prevDot.classList.add('dot-active');
+}
 
-document.getElementById('next').addEventListener('click', function () {
-    nextImage();
-    showActiveImage();
-    showPreviousImages();
-    showNextImages();
+(function () {
+    const images = [...document.querySelectorAll('img')];
+    for (let i = 0; i < images.length; i++) {
+        minTranformValue = -i * 200;
+        // const img = images[i];
+        // const imgWidth = img.clientWidth;
+        // maxTransformValue += imgWidth;
+        // img.style.left = `${i * imgWidth}px`;
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        dot.setAttribute('data-index', i);
+        dot.addEventListener('click', (e) => {
+            const index = e.target.getAttribute('data-index');
+            currentTransformValue = -index * 200;
+            container.style.transform = `translateX(${currentTransformValue}px)`;
+            const activeDot = document.querySelector('.dot-active');
+            if(activeDot)activeDot.classList.remove('dot-active');
+            e.target.classList.add('dot-active');
+        });
+        dots.appendChild(dot);
+    };
+    const specificDot = document.querySelector('.dot[data-index="0"]');
+    specificDot.classList.add('dot-active');
+    setInterval(() => {
+        nextSlide();
+        nextDot();
+    }, 5000);
+})();
+
+document.getElementById('next').addEventListener('click', () => {
+   nextSlide();
+   nextDot();
 });
 
-document.getElementById('prev').addEventListener('click', function () {
-    previousImage();
-    showActiveImage();
-    showPreviousImages();
-    showNextImages();
+document.getElementById('prev').addEventListener('click', () => {
+    prevSlide();
+    prevDot();
 });
-
-
-showActiveImage();
-showPreviousImages();
-showNextImages();
-

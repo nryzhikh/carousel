@@ -1,40 +1,69 @@
-.wrapper {
+#container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    width: fit-content;
+    border-style: solid;
+    border-width: 1px;
+    position: relative;
+    transition: 0.5s;
 }
 
 img {
-    width: 100%;
-    height: auto;
+    max-height: 200px;
 }
 
-#carousel-container {
-    display: flex;
-    justify-content:center;
-    overflow: hidden;
-    width: 1000px;
-}
-
-#current-image {
-    justify-self: center;
+#frame {
     width: 200px;
-    transform: translateX(-150px);
+    border-style: solid;
+    border-width: 5px;
+    overflow: hidden;
+    
 }
 
-#previous-images {
+body {
     display: flex;
-    justify-content: right;
-    overflow: hidden;
-    width: 400px;
-    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-#next-images {
+.slide {
+    width: 200px;
+}
+
+.move-right {
+    transform: translateX(200px);
+}
+
+.move-left {
+    transform: translateX(-200px);
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.dots {
     display: flex;
-    justify-content: left;
-    overflow: hidden;
-    width: 400px;
+    align-items: space-between;
+    justify-content: space-evenly;
+    width: 2000px;
+}
+
+#controls {
+    display: flex;
+    align-items: space-between;
+    justify-content: space-evenly;
+    width: 300px;
+
+}
+
+.dot-active {
+    background-color:black;
+    border-color: black;
+    border-width: 2px;
 }
